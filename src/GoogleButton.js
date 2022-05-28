@@ -3,7 +3,7 @@ import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
 
 const clientId =
-  '636788162607-l8mqgvl09o36q5h7umgaru0jtbskrd6r.apps.googleusercontent.com';
+  '463010698088-4165vl983gosnd12r6k701udsod84r0k.apps.googleusercontent.com';
 
 const GoogleButton = ({ onSocial }) => {
   useEffect(() => {
@@ -13,7 +13,7 @@ const GoogleButton = ({ onSocial }) => {
         scope: 'email',
       });
     }
-
+    console.log(gapi.client.init);
     gapi.load('client:auth2', start);
   }, []);
 
