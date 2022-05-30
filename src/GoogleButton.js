@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
 import GoogleLogin from 'react-google-login';
-import { validateTokenAndObtainSession } from './login';
-import env from 'react-dotenv';
 import { gapi } from 'gapi-script';
+import { useDispatch } from 'react-redux';
+import JWTAuth from './services/auth';
+import http from './api/http';
+import { API_ENDPOINTS } from './api/ApiEndpoint';
 
 const clientId =
   '463010698088-4165vl983gosnd12r6k701udsod84r0k.apps.googleusercontent.com';
 
 const GoogleButton = ({ onSocial }) => {
+  // const dispatch = useDispatch();
   //   const onSuccess = async (response) => {
   //     console.log(response);
 
@@ -54,6 +57,23 @@ const GoogleButton = ({ onSocial }) => {
   }, []);
 
   const onSuccess = (response) => {
+    http
+      .post(API_ENDPOINTS.LOGIN, {
+        access_token: response.tokenId,
+      })
+      .then((res) => {
+        const userInfo = {};
+        let accessToken = res.headers.accessToken;
+        console.log(res);
+        localStorage.setItem('accessToken', accessToken);
+
+        //   history.push('/');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // dispatch(JWTAuth.onLogin(response.tokenId));
     console.log(response);
   };
 
