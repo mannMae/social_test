@@ -49,6 +49,7 @@ const GoogleButton = ({ onSocial }) => {
   const [userInfo, setUserInfo] = useState({});
   const [userEmail, setUserEmail] = useState('');
   const [userNickname, setUserNickname] = useState('');
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
     function start() {
@@ -118,6 +119,17 @@ const GoogleButton = ({ onSocial }) => {
       });
   };
 
+  const getUserInfo = (e) => {
+    e.preventDefault();
+    http
+      .get(API_ENDPOINTS.GETINFO)
+      .then((res) => {
+        setUserId(res.data.user_id);
+        console.log(userId);
+      })
+      .catch((error) => console.log(error));
+  };
+
   const editUserInfo = (e) => {
     e.preventDefault();
     setUserInfo({
@@ -125,7 +137,26 @@ const GoogleButton = ({ onSocial }) => {
       nickname: userNickname,
       profileImg: '',
     });
-    console.log(userInfo);
+
+    const regExp = /^[가-힣a-zA-Z]{2,20}$/;
+    const nickcnameCheck = regExp.test(userNickname);
+    console.log(userNickname, nickcnameCheck);
+    if (nickcnameCheck) {
+      http
+        .put(`${API_ENDPOINTS.EDITINFO}/${userId}`, { nickname: userNickname })
+        .then((res) => window.alert('회원정보가 수정되었습니다.'))
+        .catch((error) => console.log(error.response));
+    } else {
+      window.alert('닉네임이 형식에 맞지 않습니다.');
+    }
+  };
+
+  const userWithdrawals = (e) => {
+    e.preventDefault();
+    http
+      .delete(`${API_ENDPOINTS.WITHDRAWAL}/${userId}`)
+      .then((res) => window.alert('회원탈퇴 되었습니다.'))
+      .catch((error) => console.log(error.response));
   };
   return (
     <div>
@@ -156,8 +187,9 @@ const GoogleButton = ({ onSocial }) => {
             onChange={(e) => setUserNickname(e.target.value)}
           />
         </label>
+        <button onClick={getUserInfo}>회원정보 조회</button>
         <button onClick={editUserInfo}>회원정보 수정</button>
-        <button>회원탈퇴</button>
+        <button onClick={userWithdrawals}>회원탈퇴</button>
       </Form>
     </div>
   );
