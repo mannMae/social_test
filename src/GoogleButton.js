@@ -46,6 +46,9 @@ const GoogleButton = ({ onSocial }) => {
   //   console.log(error);
   // };
   const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+  const [userEmail, setUserEmail] = useState('');
+  const [userNickname, setUserNickname] = useState('');
 
   useEffect(() => {
     function start() {
@@ -72,8 +75,16 @@ const GoogleButton = ({ onSocial }) => {
         console.log(res);
         localStorage.setItem('accessToken', accessToken);
         setIsLogin(true);
+        setUserEmail(res.data.token.email);
+        setUserNickname(res.data.token.nickname);
+        // setUserInfo({
+        //   email: res.data.token.email,
+        //   nickname: res.data.token.nickname,
+        //   profileImg: '',
+        // });
         //   history.push('/');
       })
+      .then((res) => console.log(userInfo))
       .catch((error) => {
         console.log(error);
       });
@@ -85,7 +96,7 @@ const GoogleButton = ({ onSocial }) => {
     console.log(response);
   };
 
-  const onLogoutSuccess = () => {
+  const onLogout = () => {
     setIsLogin(false);
     console.log(isLogin);
 
@@ -100,10 +111,21 @@ const GoogleButton = ({ onSocial }) => {
         // deleteCookie('access_token');
         window.alert('로그아웃 되었습니다.');
         setIsLogin(false);
+        setUserInfo({});
       })
       .catch((error) => {
         console.log(error.response);
       });
+  };
+
+  const editUserInfo = (e) => {
+    e.preventDefault();
+    setUserInfo({
+      email: userEmail,
+      nickname: userNickname,
+      profileImg: '',
+    });
+    console.log(userInfo);
   };
   return (
     <div>
@@ -116,8 +138,27 @@ const GoogleButton = ({ onSocial }) => {
           onFailure={onFailure}
         />
       ) : (
-        <LogoutButton onClick={onLogoutSuccess}>로그아웃</LogoutButton>
+        <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
       )}
+      <Form>
+        <label>
+          E-Mail
+          <input
+            defaultValue={userInfo.email}
+            onChange={(e) => setUserEmail(e.target.value)}
+            readOnly
+          />
+        </label>
+        <label>
+          Nickname
+          <input
+            defaultValue={userInfo.nickname}
+            onChange={(e) => setUserNickname(e.target.value)}
+          />
+        </label>
+        <button onClick={editUserInfo}>회원정보 수정</button>
+        <button>회원탈퇴</button>
+      </Form>
     </div>
   );
 };
@@ -130,4 +171,20 @@ const LogoutButton = styled.button`
   width: 200px;
   height: 30px;
   cursor: pointer;
+`;
+
+const Form = styled.form`
+  width: 300px;
+  height: 300px;
+  justify-content: space-around;
+  display: flex;
+  margin: 10px auto;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  color: #fff;
+  background-color: #555;
+  button {
+    width: 150px;
+  }
 `;
