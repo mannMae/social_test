@@ -3,7 +3,7 @@ import { getToken } from './GetToken';
 import { API_ENDPOINTS } from './ApiEndpoint';
 
 const http = axios.create({
-  baseURL: 'https://3.37.39.231',
+  baseURL: 'https://innail.linkerverse.net',
   timeout: 30000,
   headers: {
     Accept: 'application/json',
