@@ -158,6 +158,13 @@ const GoogleButton = ({ onSocial }) => {
       .then((res) => window.alert('회원탈퇴 되었습니다.'))
       .catch((error) => console.log(error.response));
   };
+  const post = (e) => {
+    e.preventDefault();
+    http
+      .post(`${API_ENDPOINTS.POST}`, { test: 'test' })
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
   return (
     <div>
       {!isLogin ? (
@@ -190,6 +197,7 @@ const GoogleButton = ({ onSocial }) => {
         <button onClick={getUserInfo}>회원정보 조회</button>
         <button onClick={editUserInfo}>회원정보 수정</button>
         <button onClick={userWithdrawals}>회원탈퇴</button>
+        <button onClick={post}>POST</button>
       </Form>
     </div>
   );
