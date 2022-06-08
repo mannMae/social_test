@@ -3,7 +3,7 @@ import { getToken } from './GetToken';
 import { API_ENDPOINTS } from './ApiEndpoint';
 
 const http = axios.create({
-  baseURL: 'http://192.168.1.235:8000',
+  baseURL: 'https://3.37.39.231',
   timeout: 30000,
   headers: {
     Accept: 'application/json',

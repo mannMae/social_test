@@ -4,5 +4,5 @@ export const API_ENDPOINTS = {
   GETINFO: '/users/profile',
   EDITINFO: '/users/profile',
   WITHDRAWAL: '/users/withdrawals',
-  POST: '/users/test',
+  POST: '/test',
 };
