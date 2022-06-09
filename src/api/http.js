@@ -9,16 +9,17 @@ const http = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
-// http.interceptors.request.use((config) => {
-//   const accessToken = getToken();
-//   config.headers = {
-//     Authorization: `${accessToken ? accessToken : ''}`,
-//     ...config.headers,
-//   };
-//   return config;
-// });
+http.interceptors.request.use((config) => {
+  const accessToken = getToken();
+  config.headers = {
+    Authorization: `${accessToken ? accessToken : ''}`,
+    ...config.headers,
+  };
+  return config;
+});
 
 // http.interceptors.response.use(
 //   (response) => {
