@@ -6,6 +6,7 @@ import JWTAuth from './services/auth';
 import http from './api/http';
 import { API_ENDPOINTS } from './api/ApiEndpoint';
 import styled from 'styled-components';
+import AppleLogin from 'react-apple-login';
 
 const clientId =
   '463010698088-4165vl983gosnd12r6k701udsod84r0k.apps.googleusercontent.com';
@@ -168,13 +169,32 @@ const GoogleButton = ({ onSocial }) => {
   return (
     <div>
       {!isLogin ? (
-        <GoogleLogin
-          clientId={clientId}
-          // reponseType={'id_token'}
-          buttonText="구글아이디로 로그인하기"
-          onSuccess={onSuccess}
-          onFailure={onFailure}
-        />
+        <>
+          <GoogleLogin
+            clientId={clientId}
+            // reponseType={'id_token'}
+            buttonText="구글아이디로 로그인하기"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+          />
+          <AppleLogin
+            clientId={'com.react.apple.login'}
+            redirectURI={'https://redirectUrl.com'}
+            responseType={'code'}
+            responseMode={'query'}
+            usePopup={false}
+            designProp={{
+              height: 30,
+              width: 140,
+              color: 'black',
+              border: false,
+              type: 'sign-in',
+              border_radius: 15,
+              scale: 1,
+              locale: 'en_US',
+            }}
+          />
+        </>
       ) : (
         <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
       )}
