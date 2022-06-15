@@ -107,7 +107,7 @@ const GoogleButton = ({ onSocial }) => {
     //   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     // }
     http
-      .post(API_ENDPOINTS.LOGOUT, { access_token })
+      .post(API_ENDPOINTS.LOGOUT, { access_token }, { withCredentials: true })
       .then((res) => {
         localStorage.removeItem('accessToken');
         // deleteCookie('access_token');
